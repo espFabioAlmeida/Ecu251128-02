@@ -55,6 +55,7 @@ void operacao() {
 
 	off(OUT1_GPIO_Port, OUT1_Pin);
 	off(OUT2_GPIO_Port, OUT2_Pin);
+	off(LED_ON_GPIO_Port, LED_ON_Pin);
 
 	if(reentrada) {
 		if(!flagEntradaAcionamento) {
