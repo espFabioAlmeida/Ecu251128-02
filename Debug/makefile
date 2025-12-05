@@ -54,6 +54,12 @@ default.size.stdout \
 OBJDUMP_LIST += \
 Ecu251128-02.list \
 
+OBJCOPY_HEX += \
+Ecu251128-02.hex \
+
+OBJCOPY_BIN += \
+Ecu251128-02.bin \
+
 
 # All Target
 all: main-build
@@ -77,12 +83,22 @@ Ecu251128-02.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
+Ecu251128-02.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "Ecu251128-02.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
+Ecu251128-02.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "Ecu251128-02.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) Ecu251128-02.elf Ecu251128-02.list Ecu251128-02.map default.size.stdout
+	-$(RM) Ecu251128-02.bin Ecu251128-02.elf Ecu251128-02.hex Ecu251128-02.list Ecu251128-02.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
